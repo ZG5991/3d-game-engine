@@ -6,6 +6,7 @@ public class Render3d extends Render {
         super(width, height);
     }
 
+    double time = 0;
     public void floor() {
         for (int y = 0; y < height; y++) {
 
@@ -13,11 +14,13 @@ public class Render3d extends Render {
 
             double z = 8 / yCeiling;
 
+            time+=0.0005;
+
             for (int x = 0; x < width; x++) {
                 double depth = (x - width / 2.0) / height;
                 depth *= z;
                 int xx = (int) (depth) & 15;
-                int yy = (int) (z) & 15;
+                int yy = (int) (z + time) & 15;
 
                 pixels[x + y * width] = (xx * 16) | (yy * 16) << 8;
             }
