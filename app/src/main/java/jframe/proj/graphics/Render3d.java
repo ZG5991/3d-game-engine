@@ -1,28 +1,50 @@
 package jframe.proj.graphics;
 
+import jframe.proj.Game;
+
 public class Render3d extends Render {
 
     public Render3d(int width, int height) {
         super(width, height);
     }
 
-    double time = 0;
-    public void floor() {
+
+    public void floor(Game game) {
+
+        double floorPosition = 8;
+        double ceilingPosition = 16;
+
+        double forward = game.controls.z;
+        double backward = game.time / -10.0;
+        double right = game.controls.x;
+        double left = game.time / -10.0;
+
+        double rotation = game.controls.rotation;
+        double coSine = Math.cos(rotation);
+        double sine = Math.sin(rotation);
+
         for (int y = 0; y < height; y++) {
 
-            double yCeiling = (y - height / 2.0) / height;
+            double ceiling = (y - height / 2.0) / height;
 
-            double z = 8 / yCeiling;
+            double z = floorPosition / ceiling;
 
-            time+=0.0005;
+            if (ceiling < 0) {
+                z = ceilingPosition / -ceiling;
+            }
+
 
             for (int x = 0; x < width; x++) {
                 double depth = (x - width / 2.0) / height;
                 depth *= z;
-                int xx = (int) (depth) & 15;
-                int yy = (int) (z + time) & 15;
 
-                pixels[x + y * width] = (xx * 16) | (yy * 16) << 8;
+                double xx = depth * coSine + z * sine; //+ left/right
+                double yy = z * coSine - depth * sine; //+forward /backward
+
+                int xPixels = (int) (xx + right);
+                int yPixels = (int) (yy + forward);
+
+                pixels[x + y * width] = ((xPixels & 15) * 16) | ((yPixels & 15) * 16) << 8;
             }
         }
     }

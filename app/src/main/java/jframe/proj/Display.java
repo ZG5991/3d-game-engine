@@ -1,6 +1,7 @@
 package jframe.proj;
 
 import jframe.proj.graphics.Screen;
+import jframe.proj.input.InputHandler;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -19,14 +20,20 @@ public class Display extends Canvas implements Runnable{
     private BufferedImage image;
     private Screen screen;
     private int[] pixels;
-
     private Game game;
+    private InputHandler input;
 
     public Display() {
         screen = new Screen(WIDTH, HEIGHT);
         game = new Game();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+
+        input = new InputHandler();
+        addKeyListener(input);
+        addFocusListener(input);
+        addMouseListener(input);
+        //addMouseMotionListener(input);
     }
 
     @Override
@@ -65,7 +72,7 @@ public class Display extends Canvas implements Runnable{
     }
 
     private void tick() {
-        game.tick();
+        game.tick(input.key);
     }
     private void render() {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
