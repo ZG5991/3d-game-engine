@@ -33,7 +33,6 @@ public class Display extends Canvas implements Runnable{
         addKeyListener(input);
         addFocusListener(input);
         addMouseListener(input);
-        //addMouseMotionListener(input);
     }
 
     @Override

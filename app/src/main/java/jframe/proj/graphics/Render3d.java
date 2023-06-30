@@ -4,8 +4,12 @@ import jframe.proj.Game;
 
 public class Render3d extends Render {
 
+    public double[] zBuffer;
+    public double renderDist = 6500;
+
     public Render3d(int width, int height) {
         super(width, height);
+        zBuffer = new double[width * height];
     }
 
 
@@ -14,10 +18,9 @@ public class Render3d extends Render {
         double floorPosition = 8;
         double ceilingPosition = 16;
 
-        double forward = game.controls.z;
-        double backward = game.time / -10.0;
-        double right = game.controls.x;
-        double left = game.time / -10.0;
+
+        double zMovement = game.controls.z;
+        double xMovement = game.controls.x;
 
         double rotation = game.controls.rotation;
         double coSine = Math.cos(rotation);
@@ -41,11 +44,41 @@ public class Render3d extends Render {
                 double xx = depth * coSine + z * sine; //+ left/right
                 double yy = z * coSine - depth * sine; //+forward /backward
 
-                int xPixels = (int) (xx + right);
-                int yPixels = (int) (yy + forward);
+                int xPixels = (int) (xx + xMovement);
+                int yPixels = (int) (yy + zMovement);
+                zBuffer[x + y * width] = z;
 
                 pixels[x + y * width] = ((xPixels & 15) * 16) | ((yPixels & 15) * 16) << 8;
+
+
             }
+        }
+    }
+
+    public void renderDistLimiter() {
+
+        for (int i = 0; i < width * height; i++) {
+            int color = pixels[i];
+            int brightness = (int) (renderDist / (zBuffer[i]));
+
+            if (brightness < 0) {
+                brightness = 0;
+            }
+
+            if (brightness > 255) {
+                brightness = 255;
+            }
+
+            int r = (color >> 16) & 0xff;
+            int g = (color >> 8) & 0xff;
+            int b = (color) & 0xff;
+
+            r = r * brightness / 255;
+            g = g * brightness / 255;
+            b = b * brightness / 255;
+
+            pixels[i] = r << 16 | g << 8 | b;
+
         }
     }
 
