@@ -38,6 +38,10 @@ public class Render {
                     pixels[xPixels + yPixels * width] = alpha;
                 }
 
+                if (yPixels < (height / 2) * 1.05 && yPixels > (height / 2) / 1.05) {
+                    continue;
+                }
+
             }
         }
     }
