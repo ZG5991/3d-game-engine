@@ -25,9 +25,11 @@ public class Display extends Canvas implements Runnable{
     private InputHandler input;
     private int FPS;
 
+    //variables used by the mouse look camera to judge position
     private int mouseNewX;
     private int mouseOldX;
     private int mouseNewY;
+    private int mouseOldY;
 
     public Display() {
         screen = new Screen(WIDTH, HEIGHT);
@@ -40,6 +42,7 @@ public class Display extends Canvas implements Runnable{
         addFocusListener(input);
         addMouseListener(input);
         addMouseMotionListener(input);
+
     }
 
     @Override
@@ -56,6 +59,7 @@ public class Display extends Canvas implements Runnable{
 
         while (running) {
 
+            //logic to handle frames and fps counting
             long currentTime = System.nanoTime();
             long passedTime = currentTime - previousTime;
 
@@ -76,27 +80,43 @@ public class Display extends Canvas implements Runnable{
                     frames = 0;
                 }
 
-
                 if (ticked) {
                     render();
                     frames++;
                 }
 
+                //controls Mouse look X positions
+                mouseNewX = input.getMouseX();
+                    if (mouseNewX > mouseOldX) {
+                        Controller.turnRight = true;
+                    }
+                    if (mouseNewX < mouseOldX) {
+                        Controller.turnLeft = true;
+                    }
+                    if (mouseNewX == mouseOldX) {
+                        Controller.turnLeft = false;
+                        Controller.turnRight = false;
+                    }
+                    mouseOldX = mouseNewX;
+
+                mouseNewY = input.getMouseY();
+                    if (mouseNewY < mouseOldY) {
+                        Controller.lookUp = true;
+                        System.out.println("UP");
+                    }
+                    if (mouseNewY > mouseOldY) {
+                        Controller.lookDown = true;
+                        System.out.println("DOWN");
+                    }
+                    if (mouseNewY == mouseOldY) {
+                        Controller.lookUp = false;
+                        Controller.lookDown = false;
+                    }
+                    mouseOldY = mouseNewY;
+
                 render();
                 frames++;
 
-                mouseNewX = input.getMouseX();
-                if (mouseNewX > mouseOldX) {
-                    Controller.turnRight = true;
-                }
-                if (mouseNewX < mouseOldX) {
-                    Controller.turnLeft = true;
-                }
-                if (mouseNewX == mouseOldX) {
-                    Controller.turnLeft = false;
-                    Controller.turnRight = false;
-                }
-                mouseOldX = mouseNewX;
             }
         }
     }
@@ -119,6 +139,7 @@ public class Display extends Canvas implements Runnable{
             pixels[i] = screen.pixels[i];
         }
 
+        //draws the FPS counter on the screen
         Graphics graphics = bufferStrategy.getDrawGraphics();
         graphics.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
         graphics.setFont(new Font("Verdana", Font.BOLD, 25));

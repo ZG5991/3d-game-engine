@@ -1,8 +1,9 @@
 package jframe.proj.input;
 
+import javax.swing.event.MouseInputListener;
 import java.awt.event.*;
 
-public class InputHandler implements KeyListener, FocusListener, MouseListener, MouseMotionListener {
+public class InputHandler implements KeyListener, FocusListener, MouseMotionListener, MouseListener{
 
     public boolean[] key = new boolean[68836];
     public static int MOUSE_X;

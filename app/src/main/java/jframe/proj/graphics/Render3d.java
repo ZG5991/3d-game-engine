@@ -26,6 +26,10 @@ public class Render3d extends Render {
         double coSine = Math.cos(rotation);
         double sine = Math.sin(rotation);
 
+        double rotation_v = game.controls.rotation_b;
+        double coSine_v = Math.cos(rotation_v);
+        double sine_v = Math.sin(rotation_v);
+
         for (int y = 0; y < height; y++) {
 
             double ceiling = (y - height / 2.0) / height;
@@ -36,20 +40,20 @@ public class Render3d extends Render {
                 z = ceilingPosition / -ceiling;
             }
 
-
             for (int x = 0; x < width; x++) {
                 double depth = (x - width / 2.0) / height;
                 depth *= z;
 
                 double xx = depth * coSine + z * sine; //+ left/right
                 double yy = z * coSine - depth * sine; //+forward /backward
+                double zz = z * coSine_v - depth * sine_v;
 
                 int xPixels = (int) (xx + xMovement);
                 int yPixels = (int) (yy + zMovement);
+
                 zBuffer[x + y * width] = z;
 
                 pixels[x + y * width] = ((xPixels & 15) * 16) | ((yPixels & 15) * 16) << 8;
-
 
             }
         }

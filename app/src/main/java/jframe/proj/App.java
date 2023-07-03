@@ -26,7 +26,7 @@ public class App {
 
         frame.add(game);
         frame.pack();
-        //frame.getContentPane().setCursor(invisCursor);
+        frame.getContentPane().setCursor(invisCursor);
         frame.setTitle(TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
