@@ -4,20 +4,29 @@
 package jframe.proj;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class App {
+
     public String getGreeting() {
         return "Hello World!";
     }
     private static final JFrame frame = new JFrame();
-    public static final String TITLE = "game alpha 0.02";
+    public static final String TITLE = "0.03";
 
     public static void main(String[] args) {
 
         //init a display of a certain size and display it
         Display game = new Display();
+
+        //disables mouse cursor in game window
+        BufferedImage cursor = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Cursor invisCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(0, 0), "blank");
+
         frame.add(game);
         frame.pack();
+        frame.getContentPane().setCursor(invisCursor);
         frame.setTitle(TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -28,4 +37,5 @@ public class App {
 
         game.start();
     }
+
 }

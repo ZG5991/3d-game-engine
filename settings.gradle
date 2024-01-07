@@ -9,3 +9,6 @@
 
 rootProject.name = 'jframe-proj'
 include('app')
+include 'app:resources'
+findProject(':app:resources')?.name = 'resources'
+
