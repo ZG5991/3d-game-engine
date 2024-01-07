@@ -9,7 +9,7 @@ public class Controller {
     public static boolean lookDown = false;
 
     public void tick(boolean forward, boolean back, boolean left, boolean right) {
-        double rotationSpeed = 0.01;
+        double rotationSpeed = 0.02;
         double walkSpeed = 1;
         double xMove = 0;
         double zMove = 0;
@@ -56,7 +56,7 @@ public class Controller {
         rotation += rotation_a;
         rotation_a *= 0.8;
 
-        rotation -= rotation_b;
+        rotation += rotation_b;
         rotation_b *= 0.8;
 
     }

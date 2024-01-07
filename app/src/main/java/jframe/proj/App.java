@@ -13,7 +13,7 @@ public class App {
         return "Hello World!";
     }
     private static final JFrame frame = new JFrame();
-    public static final String TITLE = "game alpha 0.03";
+    public static final String TITLE = "0.03";
 
     public static void main(String[] args) {
 

@@ -26,9 +26,9 @@ public class Render3d extends Render {
         double coSine = Math.cos(rotation);
         double sine = Math.sin(rotation);
 
-        double rotation_v = game.controls.rotation_b;
-        double coSine_v = Math.cos(rotation_v);
-        double sine_v = Math.sin(rotation_v);
+        double rotationVert = game.controls.rotation;
+        double coSineVert = Math.cos(rotationVert);
+        double sineVert = Math.sin(rotationVert);
 
         for (int y = 0; y < height; y++) {
 
@@ -46,7 +46,6 @@ public class Render3d extends Render {
 
                 double xx = depth * coSine + z * sine; //+ left/right
                 double yy = z * coSine - depth * sine; //+forward /backward
-                double zz = z * coSine_v - depth * sine_v;
 
                 int xPixels = (int) (xx + xMovement);
                 int yPixels = (int) (yy + zMovement);

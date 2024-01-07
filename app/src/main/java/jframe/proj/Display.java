@@ -5,6 +5,8 @@ import jframe.proj.input.Controller;
 import jframe.proj.input.InputHandler;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -42,7 +44,6 @@ public class Display extends Canvas implements Runnable{
         addFocusListener(input);
         addMouseListener(input);
         addMouseMotionListener(input);
-
     }
 
     @Override
@@ -85,7 +86,6 @@ public class Display extends Canvas implements Runnable{
                     frames++;
                 }
 
-                //controls Mouse look X positions
                 mouseNewX = input.getMouseX();
                     if (mouseNewX > mouseOldX) {
                         Controller.turnRight = true;
@@ -99,20 +99,20 @@ public class Display extends Canvas implements Runnable{
                     }
                     mouseOldX = mouseNewX;
 
-                mouseNewY = input.getMouseY();
-                    if (mouseNewY < mouseOldY) {
-                        Controller.lookUp = true;
-                        System.out.println("UP");
-                    }
-                    if (mouseNewY > mouseOldY) {
-                        Controller.lookDown = true;
-                        System.out.println("DOWN");
-                    }
-                    if (mouseNewY == mouseOldY) {
-                        Controller.lookUp = false;
-                        Controller.lookDown = false;
-                    }
-                    mouseOldY = mouseNewY;
+//                mouseNewY = input.getMouseY();
+//                    if (mouseNewY < mouseOldY) {
+//                        Controller.lookUp = true;
+//                        System.out.println("UP");
+//                    }
+//                    if (mouseNewY > mouseOldY) {
+//                        Controller.lookDown = true;
+//                        System.out.println("DOWN");
+//                    }
+//                    if (mouseNewY == mouseOldY) {
+//                        Controller.lookUp = false;
+//                        Controller.lookDown = false;
+//                    }
+//                    mouseOldY = mouseNewY;
 
                 render();
                 frames++;
